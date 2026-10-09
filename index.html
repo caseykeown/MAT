@@ -1,0 +1,1396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monthly Automotive Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand-orange:#f47a3c;
+  --brand-orange-dark:#d6602a;
+  --brand-charcoal:#242424;
+  --brand-cream:#f6f1e8;
+  --brand-cream-soft:#fbf8f3;
+  --brand-green:#64745a;
+  --brand-gray:#d9d6d0;
+  --color-white:#fff;
+  --brand-orange-deep:#a9441c;
+  --brand-orange-deeper:#8e3815;
+  --brand-orange-soft:#fff0e7;
+  --brand-green-dark:#55634a;
+  --color-orange:var(--brand-orange);
+  --color-orange-dark:var(--brand-orange-deep);
+  --color-orange-soft:var(--brand-orange-soft);
+  --color-charcoal:var(--brand-charcoal);
+  --color-charcoal-soft:#393939;
+  --color-cream:var(--brand-cream);
+  --color-cream-soft:var(--brand-cream-soft);
+  --color-green:var(--brand-green);
+  --color-green-dark:var(--brand-green-dark);
+  --color-gray:var(--brand-gray);
+  --color-gray-dark:#77736c;
+  --color-muted:#5b574f;
+  --color-error:#a12a1b;
+  --color-success:#27663a;
+  --font-heading:"Archivo",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --font-body:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --radius:8px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--font-body);font-size:14px;color:var(--color-charcoal);background:var(--color-cream);min-height:100vh;display:flex;flex-direction:column}
+h1,h2,h3,h4{font-family:var(--font-heading);margin:0;letter-spacing:-.01em}
+a{color:var(--color-orange-dark)}
+button,input,select,textarea{font:inherit;color:inherit}
+.hidden{display:none !important}
+
+/* Header */
+.topbar{background:var(--color-charcoal);color:var(--color-white);border-bottom:4px solid var(--color-orange)}
+.topbar-inner{max-width:1280px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand-mark{width:40px;height:40px;border-radius:8px;background:var(--color-orange);display:grid;place-items:center;flex:none}
+.brand-mark svg{width:24px;height:24px}
+.brand-logo{height:40px;max-width:120px;object-fit:contain;background:var(--color-white);border-radius:6px;padding:3px}
+.brand-text h1{font-size:20px;font-weight:800;line-height:1.1}
+.brand-text .org{font-size:12px;color:var(--color-gray);letter-spacing:.04em;text-transform:uppercase}
+.nav{margin-left:auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.nav .who{font-size:13px;color:var(--color-gray);margin-right:8px}
+.nav .who strong{color:var(--color-white)}
+.navbtn{background:transparent;border:1px solid #4a4a4a;color:var(--color-white);padding:7px 12px;border-radius:6px;cursor:pointer;font-weight:500;font-size:13px}
+.navbtn:hover{border-color:var(--color-orange);color:var(--color-orange)}
+.navbtn.active{background:var(--color-orange);border-color:var(--color-orange);color:var(--color-charcoal)}
+
+main{flex:1;width:100%;max-width:1280px;margin:0 auto;padding:22px 20px 40px}
+
+/* Cards and layout */
+.card{background:var(--color-white);border:1px solid var(--color-gray);border-radius:var(--radius);padding:20px}
+.card + .card{margin-top:16px}
+.section-title{font-family:var(--font-heading);font-weight:700;font-size:15px;margin:0 0 12px;color:var(--color-charcoal)}
+.subtle{color:var(--color-muted);font-size:13px}
+.row{display:flex;gap:16px;flex-wrap:wrap}
+.grid{display:grid;gap:12px 16px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.span2{grid-column:span 2}
+.span3{grid-column:span 3}
+.span4{grid-column:1/-1}
+
+/* Forms */
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field label{font-size:12px;font-weight:600;color:var(--color-muted);text-transform:uppercase;letter-spacing:.04em}
+.field .req{color:var(--color-orange-dark)}
+input[type=text],input[type=password],input[type=number],input[type=date],select,textarea{
+  width:100%;padding:9px 11px;border:1px solid var(--color-gray);border-radius:6px;background:var(--color-white);outline:none;min-height:38px}
+textarea{resize:vertical;min-height:84px}
+input:focus,select:focus,textarea:focus{border-color:var(--color-orange);box-shadow:0 0 0 3px var(--color-orange-soft)}
+input[readonly],input:disabled,select:disabled{background:var(--color-cream-soft);color:var(--color-charcoal-soft)}
+.money{position:relative}
+.money span{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--color-gray-dark)}
+.money input{padding-left:22px}
+.check{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
+.check input{width:17px;height:17px;accent-color:var(--color-orange)}
+.hint{font-size:12px;color:var(--color-gray-dark)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;border-radius:6px;border:1px solid transparent;cursor:pointer;font-weight:600;font-size:14px;min-height:38px;white-space:nowrap}
+.btn-primary{background:var(--color-orange);color:var(--color-charcoal)}
+.btn-primary:hover{background:var(--brand-orange-dark);color:var(--color-white)}
+.btn-dark{background:var(--color-charcoal);color:var(--color-white)}
+.btn-dark:hover{background:var(--color-charcoal-soft)}
+.btn-ghost{background:var(--color-white);border-color:var(--color-gray);color:var(--color-charcoal)}
+.btn-ghost:hover{border-color:var(--color-charcoal)}
+.btn-green{background:var(--color-green);color:var(--color-white)}
+.btn-green:hover{background:var(--color-green-dark)}
+.btn-danger{background:var(--color-white);border-color:#e3b9b2;color:var(--color-error)}
+.btn-danger:hover{background:#fbeeec}
+.btn-sm{padding:5px 10px;min-height:30px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+.status{font-size:13px;font-weight:500;min-height:18px;margin-top:10px}
+.status.err{color:var(--color-error)}
+.status.ok{color:var(--color-success)}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:2px solid var(--color-gray);margin-bottom:0}
+.tab{background:transparent;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;padding:11px 16px;font-family:var(--font-heading);font-weight:600;font-size:14px;color:var(--color-muted);cursor:pointer}
+.tab:hover:not(:disabled){color:var(--color-charcoal)}
+.tab.active{color:var(--color-charcoal);border-bottom-color:var(--color-orange)}
+.tab:disabled{opacity:.4;cursor:not-allowed}
+.strip{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--color-cream-soft);border:1px solid var(--color-gray);border-top:none;padding:10px 16px;border-radius:0 0 var(--radius) var(--radius);margin-bottom:16px}
+.strip .pn{display:flex;gap:6px}
+.strip .assigned{font-family:var(--font-heading);font-weight:700;font-size:14px}
+.strip .assigned span{color:var(--color-orange-dark)}
+
+/* Tables */
+.table-wrap{overflow-x:auto;border:1px solid var(--color-gray);border-radius:6px}
+table.data{width:100%;border-collapse:collapse;font-size:13px}
+table.data th{background:var(--color-charcoal);color:var(--color-white);text-align:left;font-weight:600;padding:9px 10px;white-space:nowrap;font-size:12px;letter-spacing:.02em}
+table.data td{padding:8px 10px;border-top:1px solid #ece9e3;vertical-align:top;white-space:nowrap}
+table.data tbody tr:nth-child(even) td{background:var(--color-cream-soft)}
+table.data tbody tr.sel td{background:var(--color-orange-soft)}
+table.data td.num,table.data th.num{text-align:right}
+table.data td.wrap{white-space:normal}
+table.data .empty{text-align:center;color:var(--color-gray-dark);padding:18px;white-space:normal}
+.linkbtn{background:none;border:none;color:var(--color-orange-dark);font-weight:600;cursor:pointer;padding:0;font-size:13px;text-decoration:underline}
+.linkbtn.del{color:var(--color-error)}
+.linkbtn:disabled{color:var(--color-gray-dark);text-decoration:none;cursor:not-allowed}
+.note-line{display:block;margin-top:3px;font-size:12px;color:var(--color-muted);white-space:normal;max-width:420px}
+.ranges{display:flex;gap:14px;flex-wrap:wrap;margin:0 0 10px;font-size:13px}
+.ranges label{display:flex;align-items:center;gap:5px;cursor:pointer}
+.ranges input{accent-color:var(--color-orange)}
+
+.badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.03em}
+.b-op{background:#e4ecdf;color:var(--color-green-dark)}
+.b-oc{background:#f8e1dd;color:var(--color-error)}
+.b-na{background:#ebe8e2;color:var(--color-muted)}
+.b-lock{background:var(--color-charcoal);color:var(--color-white)}
+.b-inactive{background:#ebe8e2;color:var(--color-muted)}
+
+.banner{padding:11px 14px;border-radius:6px;font-size:13px;margin-bottom:14px}
+.banner.warn{background:#f8e1dd;color:var(--color-error);border:1px solid #edc2bb}
+.banner.info{background:var(--color-orange-soft);color:var(--color-orange-deeper);border:1px solid #f6cfb9}
+.banner.ok{background:#e4ecdf;color:var(--color-success);border:1px solid #c8d6c0}
+
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.code-results{max-height:290px;overflow:auto}
+.count{font-size:12px;color:var(--color-muted)}
+.kv{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 16px}
+.kv .field .val{padding:9px 11px;background:var(--color-cream-soft);border:1px solid var(--color-gray);border-radius:6px;min-height:38px;font-weight:500;overflow-wrap:anywhere}
+
+.totals{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-top:6px}
+.tot{background:var(--color-cream-soft);border:1px solid var(--color-gray);border-radius:6px;padding:10px 12px}
+.tot .l{font-size:11px;font-weight:600;color:var(--color-muted);text-transform:uppercase;letter-spacing:.04em}
+.tot .v{font-family:var(--font-heading);font-size:18px;font-weight:700;margin-top:3px}
+.tot.hl{background:var(--color-charcoal);border-color:var(--color-charcoal);color:var(--color-white)}
+.tot.hl .l{color:var(--color-gray)}
+
+/* Login */
+.login-wrap{display:grid;place-items:center;padding:40px 0}
+.login{width:100%;max-width:400px}
+.login h2{font-size:22px;margin-bottom:4px}
+.login .card{padding:28px}
+
+/* Admin */
+.admin-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.pill{background:var(--color-white);border:1px solid var(--color-gray);border-radius:999px;padding:8px 16px;font-weight:600;cursor:pointer;font-size:13px}
+.pill.active{background:var(--color-charcoal);color:var(--color-white);border-color:var(--color-charcoal)}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.logo-prev{max-height:70px;max-width:220px;border:1px solid var(--color-gray);border-radius:6px;padding:6px;background:var(--color-white)}
+
+/* Modal */
+.modal-bg{position:fixed;inset:0;background:rgba(36,36,36,.55);display:grid;place-items:center;padding:16px;z-index:50}
+.modal{background:var(--color-white);border-radius:10px;width:100%;max-width:420px;padding:24px}
+.modal h3{margin-bottom:14px}
+
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--color-charcoal);color:var(--color-white);padding:11px 18px;border-radius:8px;font-weight:500;z-index:60;box-shadow:0 6px 20px rgba(0,0,0,.2);border-left:4px solid var(--color-orange)}
+
+footer.site{background:var(--color-charcoal);color:var(--color-gray);text-align:center;padding:16px 20px;font-size:13px}
+footer.site a{color:var(--color-orange)}
+
+@media (max-width:900px){
+  .split{grid-template-columns:1fr}
+  .kv,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .totals{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g3{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:560px){
+  main{padding:16px}
+  .kv,.g4,.g3,.g2{grid-template-columns:1fr}
+  .span2,.span3{grid-column:auto}
+  .totals{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tab{padding:10px 10px;font-size:13px}
+  .nav{margin-left:0}
+}
+
+/* ===== Printed report (KSP 18 layout) ===== */
+#printArea{display:none}
+.rpt{font-family:Arial,Helvetica,sans-serif;color:#000;font-size:10.5px;width:7.5in;margin:0 auto;background:#fff}
+.rpt-head{display:grid;grid-template-columns:1.1in 1fr 1.1in;align-items:center;margin-bottom:14px}
+.rpt-head img{max-height:.85in;max-width:1.05in;object-fit:contain}
+.rpt-title{text-align:center}
+.rpt-title .t1{font-style:italic;font-weight:700;font-size:14px;text-transform:uppercase}
+.rpt-title .t2{font-weight:700;font-size:16px;margin-top:2px}
+.rpt-draft{text-align:right;font-weight:700;font-size:13px;color:#a12a1b;letter-spacing:.08em}
+.rpt-info{display:grid;grid-template-columns:1fr 1fr;gap:0 .35in;margin-bottom:14px}
+.rpt-info .r{display:grid;grid-template-columns:1.35in 1fr;align-items:end;padding:3px 0}
+.rpt-info .r .k{font-style:italic;font-size:10px}
+.rpt-info .r .v{font-weight:700;border-bottom:1px solid #000;padding-bottom:2px;min-height:15px}
+.rpt table{border-collapse:collapse;width:100%}
+.rpt-grid{display:grid;grid-template-columns:1fr 1fr;border:1.5px solid #000}
+.rpt-grid table td,.rpt-grid table th{border:1px solid #000;padding:2px 4px;height:18px;font-size:10.5px}
+.rpt-grid table th{font-weight:400;font-size:10px;line-height:1.1}
+.rpt-grid .d{text-align:center;width:.42in}
+.rpt-grid .n{text-align:right}
+.rpt h4{font-family:Arial,Helvetica,sans-serif;text-align:center;font-size:13px;margin:16px 0 6px;letter-spacing:0}
+.rpt-rep{border:1.5px solid #000}
+.rpt-rep th,.rpt-rep td{border:1px solid #000;padding:3px 4px;font-size:10px}
+.rpt-rep th{font-weight:400;text-align:center}
+.rpt-rep td.c{text-align:center}
+.rpt-rep td.n{text-align:right}
+.rpt-tot{margin-top:18px}
+.rpt-tot th{font-weight:400;font-size:10px;text-align:center;padding:2px 4px;vertical-align:bottom}
+.rpt-tot td{border:1.5px solid #000;text-align:center;padding:4px;font-size:11px}
+.rpt-sig{display:grid;grid-template-columns:1.2in 2.1in .9in 2.1in .7in;align-items:end;gap:6px;margin-top:30px;font-style:italic;font-size:10px}
+.rpt-sig .line{border-bottom:1px solid #000;height:16px}
+.rpt-sig .form{text-align:right;font-size:9px}
+.rpt-foot{display:flex;justify-content:space-between;margin-top:40px;font-size:10px}
+
+@media print{
+  @page{size:letter;margin:.45in}
+  body{background:#fff;display:block}
+  body > *:not(#printArea){display:none !important}
+  #printArea{display:block !important}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <img id="brandLogo" class="brand-logo hidden" alt="">
+      <div id="brandMark" class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14v-5l-2-5H7l-2 5v5z"/><path d="M5 12h14"/><circle cx="8" cy="17" r="1.6" fill="#242424"/><circle cx="16" cy="17" r="1.6" fill="#242424"/></svg>
+      </div>
+      <div class="brand-text">
+        <h1>Monthly Automotive Tracker</h1>
+        <div class="org" id="brandOrg"></div>
+      </div>
+    </div>
+    <nav class="nav hidden" id="nav">
+      <span class="who" id="who"></span>
+      <button class="navbtn active" id="navTracker" type="button">Tracker</button>
+      <button class="navbtn hidden" id="navAdmin" type="button">Admin Panel</button>
+      <button class="navbtn" id="navPassword" type="button">Change Password</button>
+      <button class="navbtn" id="navLogout" type="button">Log Out</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ===== LOGIN ===== -->
+  <section id="viewLogin" class="login-wrap hidden">
+    <div class="login">
+      <div class="card">
+        <h2>Sign In</h2>
+        <p class="subtle" style="margin:0 0 18px">Enter your username and password.</p>
+        <form id="loginForm" autocomplete="on">
+          <div class="field" style="margin-bottom:12px">
+            <label for="loginUser">Username</label>
+            <input type="text" id="loginUser" autocomplete="username" required>
+          </div>
+          <div class="field" style="margin-bottom:16px">
+            <label for="loginPass">Password</label>
+            <input type="password" id="loginPass" autocomplete="current-password" required>
+          </div>
+          <button class="btn btn-primary" type="submit" style="width:100%" id="loginBtn">Sign In</button>
+          <div class="status err" id="loginStatus"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRACKER ===== -->
+  <section id="viewTracker" class="hidden">
+    <div class="tabs" role="tablist">
+      <button class="tab" data-tab="vehicle" type="button">Vehicle Information</button>
+      <button class="tab" data-tab="driver" type="button">Employee/Driver Info</button>
+      <button class="tab" data-tab="gas" type="button">Gas Receipts</button>
+      <button class="tab" data-tab="repair" type="button">Vehicle Repair/Maintenance</button>
+      <button class="tab" data-tab="report" type="button">Finish/Print Report</button>
+    </div>
+    <div class="strip">
+      <div class="pn">
+        <button class="btn btn-ghost btn-sm" id="btnPrev" type="button">&larr; Prev</button>
+        <button class="btn btn-ghost btn-sm" id="btnNext" type="button">Next &rarr;</button>
+      </div>
+      <div class="assigned" id="stripAssigned"></div>
+    </div>
+
+    <!-- Vehicle Information -->
+    <div class="tabpane" data-pane="vehicle">
+      <div class="card">
+        <h3 class="section-title">Select Vehicle</h3>
+        <form id="plateForm" class="row" style="align-items:flex-end">
+          <div class="field" style="width:240px">
+            <label for="plateInput">License Plate</label>
+            <input type="text" id="plateInput" list="plateList" autocomplete="off" style="text-transform:uppercase">
+            <datalist id="plateList"></datalist>
+          </div>
+          <button class="btn btn-dark" type="submit">Retrieve</button>
+        </form>
+        <div class="status err" id="plateStatus"></div>
+      </div>
+      <div class="card" id="vehicleCard">
+        <h3 class="section-title">Automotive Information</h3>
+        <div id="ocBanner" class="banner warn hidden"></div>
+        <div class="kv" id="vehicleKV"></div>
+      </div>
+    </div>
+
+    <!-- Driver -->
+    <div class="tabpane" data-pane="driver">
+      <div class="card">
+        <h3 class="section-title">Employee/Driver Assigned</h3>
+        <div id="noDriver" class="banner info hidden">No driver is assigned to this vehicle. The administrator assigns drivers in the Admin Panel.</div>
+        <div class="kv" id="driverKV"></div>
+      </div>
+    </div>
+
+    <!-- Gas -->
+    <div class="tabpane" data-pane="gas">
+      <div class="card">
+        <h3 class="section-title" id="gasFormTitle">Enter Gas Receipt</h3>
+        <form id="gasForm" novalidate>
+          <div class="grid g4">
+            <div class="field"><label for="gDate">Receipt Date <span class="req">*</span></label><input type="date" id="gDate"></div>
+            <div class="field"><label for="gOdo">Odometer <span class="req">*</span></label><input type="number" id="gOdo" min="0" step="1" inputmode="numeric"></div>
+            <div class="field"><label for="gGal">Gas Gallons <span class="req">*</span></label><input type="number" id="gGal" min="0" step="0.01" inputmode="decimal"></div>
+            <div class="field"><label for="gCost">Gas Cost <span class="req">*</span></label><div class="money"><span>$</span><input type="number" id="gCost" min="0" step="0.01" inputmode="decimal"></div></div>
+          </div>
+          <div class="btns" style="margin-top:14px">
+            <button class="btn btn-primary" type="submit" id="gSubmit">Add</button>
+            <button class="btn btn-ghost" type="button" id="gClear">Clear</button>
+          </div>
+          <div class="status" id="gasStatus"></div>
+        </form>
+      </div>
+      <div class="card">
+        <h3 class="section-title">Gas Receipts</h3>
+        <div class="ranges" data-range="gas"></div>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th></th><th>Receipt Date</th><th>Day Of Week</th><th class="num">Gallons (Gas)</th><th class="num">Cost (Gas)</th><th class="num">Odometer</th><th>Driver</th><th></th></tr></thead>
+            <tbody id="gasRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Repairs -->
+    <div class="tabpane" data-pane="repair">
+      <div class="split">
+        <div class="card">
+          <h3 class="section-title">Find and select a repair/maintenance item from the list</h3>
+          <div class="grid g2">
+            <div class="field"><label for="rCat">Type of Repair/Maint</label><select id="rCat"></select></div>
+            <div class="field"><label for="rKey">Key Word Search</label><input type="text" id="rKey" style="text-transform:uppercase"></div>
+          </div>
+          <div class="btns" style="margin:12px 0 10px"><button class="btn btn-dark btn-sm" id="rFind" type="button">Find</button><span class="count" id="rCount"></span></div>
+          <div class="table-wrap code-results">
+            <table class="data">
+              <thead><tr><th></th><th>Code</th><th>Description</th><th>Type</th></tr></thead>
+              <tbody id="codeRows"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="section-title" id="repFormTitle">Enter Repair/Maintenance</h3>
+          <form id="repForm" novalidate>
+            <div class="grid g2">
+              <div class="field span2"><label for="rCode">Repair/Maint Code <span class="req">*</span></label><input type="text" id="rCode" readonly placeholder="Select an item from the list"></div>
+              <div class="field"><label for="rDate">Receipt Date <span class="req">*</span></label><input type="date" id="rDate"></div>
+              <div class="field"><label for="rOdo">Odometer <span class="req">*</span></label><input type="number" id="rOdo" min="0" step="1" inputmode="numeric"></div>
+              <div class="field"><label for="rLabor">Labor Cost</label><div class="money"><span>$</span><input type="number" id="rLabor" min="0" step="0.01" inputmode="decimal"></div></div>
+              <div class="field"><label for="rParts">Parts Cost</label><div class="money"><span>$</span><input type="number" id="rParts" min="0" step="0.01" inputmode="decimal"></div></div>
+              <div class="field"><label for="rQty">Parts Qty</label><input type="number" id="rQty" min="0" step="1" inputmode="decimal"></div>
+              <div class="field" style="justify-content:flex-end"><label class="check" style="text-transform:none;letter-spacing:0;font-size:14px;color:var(--color-charcoal);font-weight:500"><input type="checkbox" id="rWarranty"> Under Warranty</label></div>
+              <div class="field span2"><label for="rInfo">Additional Info</label><textarea id="rInfo" maxlength="1000" placeholder="Example: Rotors were drilled and slotted and brake pads were ceramic"></textarea><span class="hint">For your records only. This does not appear on the printed report.</span></div>
+            </div>
+            <div class="btns" style="margin-top:14px">
+              <button class="btn btn-primary" type="submit" id="rSubmit">Add</button>
+              <button class="btn btn-ghost" type="button" id="rClear">Clear</button>
+            </div>
+            <div class="status" id="repStatus"></div>
+          </form>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="section-title">Repair and Maintenance Receipts</h3>
+        <div class="ranges" data-range="repair"></div>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th></th><th>Receipt Date</th><th>Day Of Week</th><th>Repair</th><th class="num">Labor Cost</th><th class="num">Parts Cost</th><th class="num">Parts Qty</th><th class="num">Odometer</th><th>Driver</th><th>Warranty</th><th></th></tr></thead>
+            <tbody id="repRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Report -->
+    <div class="tabpane" data-pane="report">
+      <div class="card">
+        <h3 class="section-title">Report Parameters</h3>
+        <div class="grid g4" style="max-width:820px">
+          <div class="field"><label for="rpMonth">Month</label><select id="rpMonth"></select></div>
+          <div class="field"><label for="rpYear">Year</label><select id="rpYear"></select></div>
+          <div class="field"><label for="rpBegin">Beginning Mileage</label><input type="number" id="rpBegin" min="0" step="1"></div>
+          <div class="field"><label for="rpEnd">Ending Mileage</label><input type="number" id="rpEnd" min="0" step="1"></div>
+        </div>
+        <div id="rpSummary" style="margin-top:16px"></div>
+        <div class="btns" style="margin-top:16px">
+          <button class="btn btn-primary" type="button" id="rpFinish">Finish/Print Report</button>
+          <button class="btn btn-ghost" type="button" id="rpPreview">Print Preview (Draft)</button>
+          <button class="btn btn-dark hidden" type="button" id="rpReprint">Reprint Report</button>
+        </div>
+        <div class="status" id="rpStatus"></div>
+      </div>
+      <div class="card">
+        <h3 class="section-title">Report History</h3>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th></th><th>Month/Year</th><th class="num">Gallons (Gas)</th><th class="num">Cost (Gas)</th><th class="num">Parts Cost</th><th class="num">Labor Cost</th><th class="num">Total Cost</th><th class="num">Total Miles</th><th>Driver Name</th><th>Finished</th></tr></thead>
+            <tbody id="histRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ADMIN ===== -->
+  <section id="viewAdmin" class="hidden">
+    <div class="admin-tabs">
+      <button class="pill active" data-atab="vehicles" type="button">Vehicles</button>
+      <button class="pill" data-atab="drivers" type="button">Drivers</button>
+      <button class="pill" data-atab="codes" type="button">Repair Codes</button>
+      <button class="pill" data-atab="reports" type="button">Finished Reports</button>
+      <button class="pill" data-atab="settings" type="button">Settings</button>
+    </div>
+
+    <!-- Vehicles -->
+    <div class="apane" data-apane="vehicles">
+      <div class="card hidden" id="vehFormCard">
+        <h3 class="section-title" id="vehFormTitle">Add Vehicle</h3>
+        <form id="vehForm" novalidate>
+          <div class="grid g4">
+            <div class="field"><label for="vPlate">License Plate <span class="req">*</span></label><input type="text" id="vPlate" style="text-transform:uppercase"></div>
+            <div class="field span2"><label for="vVin">VIN Number</label><input type="text" id="vVin" maxlength="17" style="text-transform:uppercase"></div>
+            <div class="field"><label for="vYear">Year</label><input type="number" id="vYear" min="1900" max="2100" step="1"></div>
+            <div class="field"><label for="vMake">Make</label><input type="text" id="vMake" style="text-transform:uppercase"></div>
+            <div class="field"><label for="vModel">Model</label><input type="text" id="vModel" style="text-transform:uppercase"></div>
+            <div class="field"><label for="vFuel">Fuel Type</label><select id="vFuel"><option value=""></option><option>GAS</option><option>DIESEL</option><option>FLEX FUEL</option><option>HYBRID</option><option>ELECTRIC</option><option>OTHER</option></select></div>
+            <div class="field"><label for="vColor">Color</label><input type="text" id="vColor" style="text-transform:uppercase"></div>
+            <div class="field"><label for="vGvwr">GVWR (lbs)</label><input type="number" id="vGvwr" min="0" step="1"></div>
+            <div class="field"><label for="vStatus">Vehicle Road Status <span class="req">*</span></label><select id="vStatus"><option value="OPERATIONAL">OPERATIONAL</option><option value="OUT OF COMMISSION">OUT OF COMMISSION</option><option value="N/A">N/A</option></select></div>
+            <div class="field span2 hidden" id="vReasonWrap"><label for="vReason">Road Status Reason <span class="req">*</span></label><input type="text" id="vReason" maxlength="200"></div>
+            <div class="field"><label for="vDriver">Assigned Driver</label><select id="vDriver"></select></div>
+            <div class="field"><label for="vIssued">Date Vehicle Issued</label><input type="date" id="vIssued"></div>
+          </div>
+          <div class="btns" style="margin-top:14px">
+            <button class="btn btn-primary" type="submit" id="vSubmit">Save Vehicle</button>
+            <button class="btn btn-ghost" type="button" id="vCancel">Cancel</button>
+          </div>
+          <div class="status" id="vehStatus"></div>
+        </form>
+      </div>
+      <div class="card">
+        <div class="panel-head"><h3 class="section-title" style="margin:0">Fleet Vehicles</h3><button class="btn btn-primary btn-sm" id="vAdd" type="button">+ Add Vehicle</button></div>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th>License Plate</th><th>Vehicle</th><th>VIN</th><th>Road Status</th><th>Assigned To</th><th>Issued</th><th></th></tr></thead>
+            <tbody id="admVehRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Drivers -->
+    <div class="apane hidden" data-apane="drivers">
+      <div class="card hidden" id="drvFormCard">
+        <h3 class="section-title" id="drvFormTitle">Add Driver</h3>
+        <form id="drvForm" novalidate autocomplete="off">
+          <div class="grid g4">
+            <div class="field"><label for="dLast">Last Name <span class="req">*</span></label><input type="text" id="dLast" style="text-transform:uppercase"></div>
+            <div class="field"><label for="dFirst">First Name <span class="req">*</span></label><input type="text" id="dFirst" style="text-transform:uppercase"></div>
+            <div class="field"><label for="dMi">Middle Initial</label><input type="text" id="dMi" maxlength="1" style="text-transform:uppercase"></div>
+            <div class="field"><label for="dState">OL State</label><select id="dState"></select></div>
+            <div class="field"><label for="dOl">OL Number</label><input type="text" id="dOl" style="text-transform:uppercase"></div>
+            <div class="field"><label for="dUser">Username <span class="req">*</span></label><input type="text" id="dUser" autocomplete="off"></div>
+            <div class="field"><label for="dPass">Password <span class="req" id="dPassReq">*</span></label><input type="password" id="dPass" autocomplete="new-password"><span class="hint" id="dPassHint"></span></div>
+            <div class="field" style="justify-content:flex-end"><label class="check" style="text-transform:none;letter-spacing:0;font-size:14px;color:var(--color-charcoal);font-weight:500"><input type="checkbox" id="dActive" checked> Active</label></div>
+          </div>
+          <div class="btns" style="margin-top:14px">
+            <button class="btn btn-primary" type="submit">Save Driver</button>
+            <button class="btn btn-ghost" type="button" id="dCancel">Cancel</button>
+          </div>
+          <div class="status" id="drvStatus"></div>
+        </form>
+      </div>
+      <div class="card">
+        <div class="panel-head"><h3 class="section-title" style="margin:0">Drivers</h3><button class="btn btn-primary btn-sm" id="dAdd" type="button">+ Add Driver</button></div>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th>Name</th><th>OL State</th><th>OL Number</th><th>Username</th><th>Vehicles</th><th>Status</th><th></th></tr></thead>
+            <tbody id="admDrvRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Codes -->
+    <div class="apane hidden" data-apane="codes">
+      <div class="card hidden" id="codeFormCard">
+        <h3 class="section-title" id="codeFormTitle">Add Repair Code</h3>
+        <form id="codeForm" novalidate>
+          <div class="grid g4">
+            <div class="field"><label for="cCode">Code <span class="req">*</span></label><input type="text" id="cCode" maxlength="3" inputmode="numeric"></div>
+            <div class="field span2"><label for="cDesc">Description <span class="req">*</span></label><input type="text" id="cDesc" style="text-transform:uppercase"></div>
+            <div class="field"><label for="cCat">Category <span class="req">*</span></label><select id="cCat"></select></div>
+          </div>
+          <div class="btns" style="margin-top:14px">
+            <button class="btn btn-primary" type="submit">Save Code</button>
+            <button class="btn btn-ghost" type="button" id="cCancel">Cancel</button>
+          </div>
+          <div class="status" id="codeStatus"></div>
+        </form>
+      </div>
+      <div class="card">
+        <div class="panel-head">
+          <h3 class="section-title" style="margin:0">Repair/Maintenance Codes</h3>
+          <div class="btns"><select id="cFilter" style="width:auto"></select><button class="btn btn-primary btn-sm" id="cAdd" type="button">+ Add Code</button></div>
+        </div>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th>Code</th><th>Description</th><th>Type</th><th></th></tr></thead>
+            <tbody id="admCodeRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reports -->
+    <div class="apane hidden" data-apane="reports">
+      <div class="card">
+        <h3 class="section-title">Finished Reports</h3>
+        <p class="subtle" style="margin:0 0 12px">Unlocking a month reopens its gas and repair receipts for changes. The driver must finish the month again afterward.</p>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th>License Plate</th><th>Month/Year</th><th class="num">Total Cost</th><th>Finished</th><th>Finished By</th><th></th></tr></thead>
+            <tbody id="admRepRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div class="apane hidden" data-apane="settings">
+      <div class="card">
+        <h3 class="section-title">Organization</h3>
+        <form id="setForm" novalidate>
+          <div class="grid g2" style="max-width:760px">
+            <div class="field span2"><label for="sOrg">Organization Name</label><input type="text" id="sOrg" maxlength="120" placeholder="Shown in the header and at the top of the printed report"></div>
+            <div class="field span2">
+              <label for="sLogo">Logo (optional)</label>
+              <input type="file" id="sLogo" accept="image/png,image/jpeg,image/gif,image/webp,image/svg+xml">
+              <span class="hint">PNG, JPG, GIF, WEBP or SVG, under 500 KB.</span>
+              <div class="btns" style="margin-top:8px"><img id="sLogoPrev" class="logo-prev hidden" alt="Logo preview"><button class="btn btn-danger btn-sm hidden" type="button" id="sLogoRemove">Remove Logo</button></div>
+            </div>
+          </div>
+          <div class="btns" style="margin-top:14px"><button class="btn btn-primary" type="submit">Save Settings</button></div>
+          <div class="status" id="setStatus"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  &copy; 2026 Twin Lakes Web Co. LLC &middot; Support: <a href="mailto:help@twinlakesweb.com">help@twinlakesweb.com</a>
+</footer>
+
+<!-- Change password modal -->
+<div class="modal-bg hidden" id="pwModal">
+  <div class="modal">
+    <h3>Change Password</h3>
+    <form id="pwForm" novalidate>
+      <div class="field" style="margin-bottom:10px"><label for="pwOld">Current Password</label><input type="password" id="pwOld" autocomplete="current-password"></div>
+      <div class="field" style="margin-bottom:10px"><label for="pwNew">New Password</label><input type="password" id="pwNew" autocomplete="new-password"></div>
+      <div class="field" style="margin-bottom:16px"><label for="pwNew2">Confirm New Password</label><input type="password" id="pwNew2" autocomplete="new-password"></div>
+      <div class="btns"><button class="btn btn-primary" type="submit">Update Password</button><button class="btn btn-ghost" type="button" id="pwCancel">Cancel</button></div>
+      <div class="status" id="pwStatus"></div>
+    </form>
+  </div>
+</div>
+
+<div id="printArea"></div>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- Configuration ---------- */
+const SB_URL = 'https://hlyqcewbbyguqdoucppb.supabase.co';
+const SB_KEY = 'sb_publishable_ZzBirEUZlCdr1bkWlI-OdA_F13A0nqn';
+const TZ = 'America/New_York';
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','DC','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'];
+const RANGES = [{v:1,l:'Show Current Month'},{v:3,l:'Show 3 Months'},{v:6,l:'Show 6 Months'},{v:12,l:'Show 12 Months'},{v:0,l:'Show Lifetime'}];
+const TAB_ORDER = ['vehicle','driver','gas','repair','report'];
+
+/* ---------- State ---------- */
+const S = {
+  token:null, user:null, settings:{}, categories:[], codes:[], vehicles:[],
+  vehicle:null, tab:'vehicle', gasRange:3, repRange:3,
+  gasList:[], repList:[], editGas:null, editRep:null, selCode:null,
+  report:null, admin:null, atab:'vehicles', editVeh:null, editDrv:null, editCode:null,
+  logoData:null, clearLogo:false
+};
+
+/* ---------- Helpers ---------- */
+const $ = (id) => document.getElementById(id);
+const qa = (sel, root) => Array.from((root||document).querySelectorAll(sel));
+const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+  set(k,v){ try { localStorage.setItem(k,v); } catch(e){} },
+  del(k){ try { localStorage.removeItem(k); } catch(e){} }
+};
+function money(n){ const x = Number(n||0); return '$' + x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function num2(n){ return Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function intc(n){ return (n===null||n===undefined||n==='') ? '' : Number(n).toLocaleString('en-US'); }
+function qty(n){ const x = Number(n||0); return x % 1 === 0 ? String(x) : x.toFixed(2); }
+function parseD(s){ if(!s) return null; const [y,m,d] = String(s).slice(0,10).split('-').map(Number); return new Date(y, m-1, d); }
+function fmtD(s){ const d = parseD(s); if(!d) return ''; return String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+'/'+d.getFullYear(); }
+function dow(s){ const d = parseD(s); return d ? DAYS[d.getDay()] : ''; }
+function todayISO(){
+  const p = new Intl.DateTimeFormat('en-CA',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  return p;
+}
+function fmtTS(ts){ if(!ts) return ''; return new Date(ts).toLocaleString('en-US',{timeZone:TZ,month:'numeric',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',second:'2-digit'}); }
+function setStatus(id, msg, ok){ const el = $(id); el.textContent = msg || ''; el.className = 'status ' + (ok ? 'ok' : 'err'); }
+let toastTimer;
+function toast(msg){
+  let t = document.querySelector('.toast');
+  if(!t){ t = document.createElement('div'); t.className = 'toast'; document.body.appendChild(t); }
+  t.textContent = msg; t.classList.remove('hidden');
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.add('hidden'), 2600);
+}
+function show(el, on){ (typeof el === 'string' ? $(el) : el).classList.toggle('hidden', !on); }
+function statusBadge(s){
+  const cls = s === 'OPERATIONAL' ? 'b-op' : s === 'OUT OF COMMISSION' ? 'b-oc' : 'b-na';
+  return '<span class="badge '+cls+'">'+esc(s||'N/A')+'</span>';
+}
+
+/* ---------- API ---------- */
+async function rpc(fn, args){
+  let res;
+  try {
+    res = await fetch(SB_URL + '/rest/v1/rpc/' + fn, {
+      method:'POST',
+      headers:{'apikey':SB_KEY,'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify(args || {})
+    });
+  } catch(e){
+    throw new Error('Unable to reach the server. Check your internet connection.');
+  }
+  const text = await res.text();
+  let data = null;
+  if(text){ try { data = JSON.parse(text); } catch(e){ data = text; } }
+  if(!res.ok){
+    let msg = (data && data.message) ? data.message : 'Request failed (' + res.status + ').';
+    if(/^SESSION_EXPIRED/.test(msg)){
+      msg = msg.replace(/^SESSION_EXPIRED:\s*/, '');
+      expire(msg);
+    }
+    if(/invalid input syntax/i.test(msg)) msg = 'One of the values entered is not valid.';
+    throw new Error(msg);
+  }
+  return data;
+}
+const T = () => ({p_token: S.token});
+
+/* ---------- Session ---------- */
+function expire(msg){
+  S.token = null; store.del('mat_token');
+  showLogin(msg);
+}
+function showLogin(msg){
+  show('viewLogin', true); show('viewTracker', false); show('viewAdmin', false); show('nav', false);
+  $('loginStatus').textContent = msg || '';
+  setTimeout(()=>$('loginUser').focus(), 50);
+}
+function applyBranding(){
+  const st = S.settings || {};
+  $('brandOrg').textContent = st.org_name || '';
+  if(st.logo_data){ $('brandLogo').src = st.logo_data; show('brandLogo', true); show('brandMark', false); }
+  else { show('brandLogo', false); show('brandMark', true); }
+}
+
+$('loginForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const u = $('loginUser').value.trim(), p = $('loginPass').value;
+  if(!u || !p){ $('loginStatus').textContent = 'Enter your username and password.'; return; }
+  $('loginBtn').disabled = true; $('loginStatus').textContent = '';
+  try {
+    const r = await rpc('mat_login', {p_username:u, p_password:p});
+    S.token = r.token; store.set('mat_token', S.token);
+    $('loginPass').value = '';
+    await boot();
+  } catch(err){ $('loginStatus').textContent = err.message; }
+  finally { $('loginBtn').disabled = false; }
+});
+
+async function boot(){
+  const b = await rpc('mat_bootstrap', T());
+  S.user = b.user; S.settings = b.settings || {}; S.categories = b.categories; S.codes = b.codes; S.vehicles = b.vehicles;
+  applyBranding();
+  show('viewLogin', false); show('nav', true);
+  $('who').innerHTML = 'Signed in as <strong>' + esc(S.user.display_name) + '</strong>';
+  show('navAdmin', S.user.role === 'admin');
+  fillPlateList(); fillCategorySelects();
+  S.vehicle = null;
+  const last = store.get('mat_last_plate_' + S.user.username);
+  let auto = null;
+  if(last && S.vehicles.some(v => v.license_plate === last)) auto = last;
+  else if(S.user.role === 'driver' && S.vehicles.length === 1) auto = S.vehicles[0].license_plate;
+  goTracker();
+  if(auto){ $('plateInput').value = auto; await loadVehicle(auto); }
+  else if(S.user.role === 'driver' && S.vehicles.length === 0){
+    setStatus('plateStatus', 'No vehicle is currently assigned to you. Contact the administrator.');
+  }
+}
+
+$('navLogout').addEventListener('click', async ()=>{
+  try { if(S.token) await rpc('mat_logout', T()); } catch(e){}
+  S.token = null; S.user = null; S.vehicle = null; store.del('mat_token');
+  showLogin('');
+});
+$('navTracker').addEventListener('click', goTracker);
+$('navAdmin').addEventListener('click', goAdmin);
+
+function goTracker(){
+  show('viewTracker', true); show('viewAdmin', false);
+  $('navTracker').classList.add('active'); $('navAdmin').classList.remove('active');
+  setTab(S.vehicle ? S.tab : 'vehicle');
+}
+async function goAdmin(){
+  show('viewTracker', false); show('viewAdmin', true);
+  $('navAdmin').classList.add('active'); $('navTracker').classList.remove('active');
+  await loadAdmin();
+}
+
+/* ---------- Change password ---------- */
+$('navPassword').addEventListener('click', ()=>{ $('pwForm').reset(); setStatus('pwStatus',''); show('pwModal', true); $('pwOld').focus(); });
+$('pwCancel').addEventListener('click', ()=>show('pwModal', false));
+$('pwForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  if($('pwNew').value !== $('pwNew2').value){ setStatus('pwStatus','New passwords do not match.'); return; }
+  try {
+    await rpc('mat_change_password', {p_token:S.token, p_old:$('pwOld').value, p_new:$('pwNew').value});
+    show('pwModal', false); toast('Password updated.');
+  } catch(err){ setStatus('pwStatus', err.message); }
+});
+
+/* ---------- Tabs ---------- */
+qa('.tab').forEach(b => b.addEventListener('click', ()=>setTab(b.dataset.tab)));
+function setTab(t){
+  if(!S.vehicle && t !== 'vehicle') t = 'vehicle';
+  S.tab = t;
+  qa('.tab').forEach(b => { b.classList.toggle('active', b.dataset.tab === t); b.disabled = !S.vehicle && b.dataset.tab !== 'vehicle'; });
+  qa('.tabpane').forEach(p => show(p, p.dataset.pane === t));
+  const i = TAB_ORDER.indexOf(t);
+  $('btnPrev').disabled = i <= 0;
+  $('btnNext').disabled = i >= TAB_ORDER.length - 1 || !S.vehicle;
+  show('vehicleCard', !!S.vehicle);
+  if(t === 'gas') loadGas();
+  if(t === 'repair'){ renderCodes(); loadRepairs(); }
+  if(t === 'report') loadReport();
+}
+$('btnPrev').addEventListener('click', ()=>{ const i = TAB_ORDER.indexOf(S.tab); if(i > 0) setTab(TAB_ORDER[i-1]); });
+$('btnNext').addEventListener('click', ()=>{ const i = TAB_ORDER.indexOf(S.tab); if(i < TAB_ORDER.length-1) setTab(TAB_ORDER[i+1]); });
+
+function renderStrip(){
+  const v = S.vehicle;
+  if(!v){ $('stripAssigned').innerHTML = ''; return; }
+  $('stripAssigned').innerHTML = 'Plate <span>' + esc(v.license_plate) + '</span> &middot; Assigned To: ' + esc(v.driver_full || 'UNASSIGNED');
+}
+
+/* ---------- Vehicle ---------- */
+function fillPlateList(){
+  $('plateList').innerHTML = S.vehicles.map(v => '<option value="'+esc(v.license_plate)+'">'+esc(v.label)+'</option>').join('');
+}
+$('plateForm').addEventListener('submit', async (e)=>{ e.preventDefault(); await loadVehicle($('plateInput').value); });
+
+async function loadVehicle(plate){
+  setStatus('plateStatus','');
+  try {
+    const v = await rpc('mat_get_vehicle', {p_token:S.token, p_plate:plate});
+    S.vehicle = v; $('plateInput').value = v.license_plate;
+    store.set('mat_last_plate_' + S.user.username, v.license_plate);
+    resetGasForm(); resetRepForm();
+    renderVehicle(); renderDriver(); renderStrip(); initReportParams();
+    setTab('vehicle');
+  } catch(err){
+    S.vehicle = null; renderStrip(); setTab('vehicle');
+    setStatus('plateStatus', err.message);
+  }
+}
+function kvItem(label, val, span){
+  return '<div class="field'+(span?' span'+span:'')+'"><label>'+esc(label)+'</label><div class="val">'+(val === '' || val == null ? '&nbsp;' : val)+'</div></div>';
+}
+function renderVehicle(){
+  const v = S.vehicle;
+  $('vehicleKV').innerHTML =
+    kvItem('License Plate', esc(v.license_plate)) +
+    kvItem('VIN Number', esc(v.vin), 2) +
+    kvItem('Year', esc(v.year)) +
+    kvItem('Make', esc(v.make)) +
+    kvItem('Model', esc(v.model)) +
+    kvItem('Fuel Type', esc(v.fuel_type)) +
+    kvItem('Color', esc(v.color)) +
+    kvItem('GVWR', v.gvwr ? esc(intc(v.gvwr)) + ' lbs' : '') +
+    kvItem('Vehicle Road Status', statusBadge(v.road_status)) +
+    (v.road_status === 'OUT OF COMMISSION' ? kvItem('Road Status Reason', esc(v.road_status_reason), 2) : '');
+  const oc = v.road_status === 'OUT OF COMMISSION';
+  show('ocBanner', oc);
+  if(oc) $('ocBanner').textContent = 'This vehicle is Out of Commission: ' + (v.road_status_reason || '');
+}
+function renderDriver(){
+  const d = S.vehicle.driver;
+  show('noDriver', !d);
+  $('driverKV').innerHTML = !d ? '' :
+    kvItem('Last Name', esc(d.last_name)) +
+    kvItem('First Name', esc(d.first_name)) +
+    kvItem('Middle Initial', esc(d.middle_initial)) +
+    kvItem('OL State', esc(d.ol_state)) +
+    kvItem('OL Number', esc(d.ol_number)) +
+    kvItem('Date Vehicle Issued', esc(fmtD(S.vehicle.date_issued)));
+}
+
+/* ---------- Range selectors ---------- */
+function renderRanges(kind){
+  const box = document.querySelector('.ranges[data-range="'+kind+'"]');
+  const cur = kind === 'gas' ? S.gasRange : S.repRange;
+  box.innerHTML = RANGES.map(r => '<label><input type="radio" name="rng_'+kind+'" value="'+r.v+'"'+(r.v===cur?' checked':'')+'> '+r.l+'</label>').join('');
+  qa('input', box).forEach(i => i.addEventListener('change', ()=>{
+    const v = Number(i.value);
+    if(kind === 'gas'){ S.gasRange = v; loadGas(); } else { S.repRange = v; loadRepairs(); }
+  }));
+}
+renderRanges('gas'); renderRanges('repair');
+
+/* ---------- Gas ---------- */
+function resetGasForm(){
+  S.editGas = null; $('gasForm').reset(); $('gDate').value = todayISO(); $('gDate').max = todayISO();
+  $('gSubmit').textContent = 'Add'; $('gasFormTitle').textContent = 'Enter Gas Receipt'; setStatus('gasStatus','');
+}
+$('gClear').addEventListener('click', resetGasForm);
+async function loadGas(){
+  if(!S.vehicle) return;
+  try {
+    S.gasList = await rpc('mat_gas_list', {p_token:S.token, p_vehicle_id:S.vehicle.id, p_months: S.gasRange || null});
+    renderGas();
+  } catch(err){ setStatus('gasStatus', err.message); }
+}
+function renderGas(){
+  const rows = S.gasList;
+  $('gasRows').innerHTML = rows.length ? rows.map(g =>
+    '<tr'+(S.editGas===g.id?' class="sel"':'')+'>' +
+    '<td>'+(g.locked ? '<span class="badge b-lock" title="Month finished">LOCKED</span>' : '<button class="linkbtn" data-ge="'+g.id+'">Edit</button>')+'</td>' +
+    '<td>'+fmtD(g.receipt_date)+'</td><td>'+dow(g.receipt_date)+'</td>' +
+    '<td class="num">'+num2(g.gallons)+'</td><td class="num">'+money(g.cost)+'</td>' +
+    '<td class="num">'+intc(g.odometer)+'</td><td>'+esc(g.driver_name)+'</td>' +
+    '<td>'+(g.locked ? '' : '<button class="linkbtn del" data-gd="'+g.id+'">Delete</button>')+'</td></tr>'
+  ).join('') : '<tr><td colspan="8" class="empty">No gas receipts in this range.</td></tr>';
+  qa('[data-ge]', $('gasRows')).forEach(b => b.addEventListener('click', ()=>editGas(b.dataset.ge)));
+  qa('[data-gd]', $('gasRows')).forEach(b => b.addEventListener('click', ()=>delGas(b.dataset.gd)));
+}
+function editGas(id){
+  const g = S.gasList.find(x => x.id === id); if(!g) return;
+  S.editGas = id;
+  $('gDate').value = g.receipt_date; $('gOdo').value = g.odometer; $('gGal').value = g.gallons; $('gCost').value = g.cost;
+  $('gSubmit').textContent = 'Update'; $('gasFormTitle').textContent = 'Edit Gas Receipt';
+  setStatus('gasStatus',''); renderGas(); window.scrollTo({top:0,behavior:'smooth'});
+}
+async function delGas(id){
+  const g = S.gasList.find(x => x.id === id); if(!g) return;
+  if(!confirm('Delete the gas receipt dated ' + fmtD(g.receipt_date) + ' for ' + money(g.cost) + '?')) return;
+  try { await rpc('mat_gas_delete', {p_token:S.token, p_id:id}); if(S.editGas === id) resetGasForm(); toast('Gas receipt deleted.'); loadGas(); }
+  catch(err){ setStatus('gasStatus', err.message); }
+}
+$('gasForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const d = $('gDate').value, odo = $('gOdo').value, gal = $('gGal').value, cost = $('gCost').value;
+  if(!d) return setStatus('gasStatus','Receipt date is required.');
+  if(d > todayISO()) return setStatus('gasStatus','Receipt date cannot be in the future.');
+  if(odo === '' || Number(odo) < 0 || !Number.isInteger(Number(odo))) return setStatus('gasStatus','Enter the odometer reading as a whole number.');
+  if(gal === '' || Number(gal) <= 0) return setStatus('gasStatus','Gas gallons must be greater than zero.');
+  if(cost === '' || Number(cost) < 0) return setStatus('gasStatus','Gas cost is required.');
+  const prior = S.gasList.filter(g => g.id !== S.editGas && g.receipt_date < d).sort((a,b)=> b.odometer - a.odometer)[0];
+  if(prior && Number(odo) < prior.odometer && !confirm('The odometer (' + intc(odo) + ') is lower than the ' + fmtD(prior.receipt_date) + ' receipt (' + intc(prior.odometer) + '). Save anyway?')) return;
+  try {
+    await rpc('mat_gas_save', {p_token:S.token, p:{id:S.editGas, vehicle_id:S.vehicle.id, receipt_date:d, odometer:odo, gallons:gal, cost:cost}});
+    const was = S.editGas; resetGasForm(); setStatus('gasStatus', was ? 'Receipt updated.' : 'Receipt added.', true); loadGas();
+  } catch(err){ setStatus('gasStatus', err.message); }
+});
+
+/* ---------- Repairs ---------- */
+function fillCategorySelects(){
+  const sorted = S.categories.slice().sort((a,b)=>a.name.localeCompare(b.name));
+  const opts = sorted.map(c => '<option value="'+c.id+'">'+esc(c.name)+'</option>').join('');
+  $('rCat').innerHTML = '<option value="">&lt;ALL&gt;</option>' + opts;
+  $('cCat').innerHTML = '<option value=""></option>' + opts;
+  $('cFilter').innerHTML = '<option value="">All Categories</option>' + opts;
+}
+function catName(id){ const c = S.categories.find(x => x.id === Number(id)); return c ? c.name : ''; }
+function renderCodes(){
+  const cat = $('rCat').value, key = $('rKey').value.trim().toUpperCase();
+  const list = S.codes.filter(c => (cat === '' || c.category_id === Number(cat)) && (!key || c.description.includes(key) || c.code.includes(key)));
+  $('rCount').textContent = list.length + ' item' + (list.length === 1 ? '' : 's');
+  $('codeRows').innerHTML = list.length ? list.map(c =>
+    '<tr'+(S.selCode===c.code?' class="sel"':'')+'><td><button class="linkbtn" data-cs="'+c.code+'">select</button></td><td>'+esc(c.code)+'</td><td>'+esc(c.description)+'</td><td>'+esc(catName(c.category_id))+'</td></tr>'
+  ).join('') : '<tr><td colspan="4" class="empty">No matching items.</td></tr>';
+  qa('[data-cs]', $('codeRows')).forEach(b => b.addEventListener('click', ()=>selectCode(b.dataset.cs)));
+}
+function selectCode(code){
+  const c = S.codes.find(x => x.code === code); if(!c) return;
+  S.selCode = code; $('rCode').value = c.code + ' - ' + c.description; renderCodes();
+}
+$('rFind').addEventListener('click', renderCodes);
+$('rCat').addEventListener('change', renderCodes);
+$('rKey').addEventListener('input', renderCodes);
+$('rKey').addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); renderCodes(); } });
+
+function resetRepForm(){
+  S.editRep = null; S.selCode = null; $('repForm').reset(); $('rDate').value = todayISO(); $('rDate').max = todayISO();
+  $('rSubmit').textContent = 'Add'; $('repFormTitle').textContent = 'Enter Repair/Maintenance'; setStatus('repStatus','');
+  if(S.tab === 'repair') renderCodes();
+}
+$('rClear').addEventListener('click', resetRepForm);
+async function loadRepairs(){
+  if(!S.vehicle) return;
+  try {
+    S.repList = await rpc('mat_repair_list', {p_token:S.token, p_vehicle_id:S.vehicle.id, p_months: S.repRange || null});
+    renderRepairs();
+  } catch(err){ setStatus('repStatus', err.message); }
+}
+function renderRepairs(){
+  const rows = S.repList;
+  $('repRows').innerHTML = rows.length ? rows.map(r =>
+    '<tr'+(S.editRep===r.id?' class="sel"':'')+'>' +
+    '<td>'+(r.locked ? '<span class="badge b-lock" title="Month finished">LOCKED</span>' : '<button class="linkbtn" data-re="'+r.id+'">Edit</button>')+'</td>' +
+    '<td>'+fmtD(r.receipt_date)+'</td><td>'+dow(r.receipt_date)+'</td>' +
+    '<td class="wrap"><strong>'+esc(r.code)+'</strong> '+esc(r.description)+(r.additional_info ? '<span class="note-line">'+esc(r.additional_info)+'</span>' : '')+'</td>' +
+    '<td class="num">'+money(r.labor_cost)+'</td><td class="num">'+money(r.parts_cost)+'</td><td class="num">'+qty(r.parts_qty)+'</td>' +
+    '<td class="num">'+intc(r.odometer)+'</td><td>'+esc(r.driver_name)+'</td><td>'+(r.under_warranty?'Yes':'No')+'</td>' +
+    '<td>'+(r.locked ? '' : '<button class="linkbtn del" data-rd="'+r.id+'">Delete</button>')+'</td></tr>'
+  ).join('') : '<tr><td colspan="11" class="empty">No repair or maintenance receipts in this range.</td></tr>';
+  qa('[data-re]', $('repRows')).forEach(b => b.addEventListener('click', ()=>editRep(b.dataset.re)));
+  qa('[data-rd]', $('repRows')).forEach(b => b.addEventListener('click', ()=>delRep(b.dataset.rd)));
+}
+function editRep(id){
+  const r = S.repList.find(x => x.id === id); if(!r) return;
+  S.editRep = id; S.selCode = r.code;
+  $('rCode').value = r.code + ' - ' + r.description;
+  $('rDate').value = r.receipt_date; $('rOdo').value = r.odometer;
+  $('rLabor').value = r.labor_cost; $('rParts').value = r.parts_cost; $('rQty').value = Number(r.parts_qty) || '';
+  $('rWarranty').checked = !!r.under_warranty; $('rInfo').value = r.additional_info || '';
+  $('rSubmit').textContent = 'Update'; $('repFormTitle').textContent = 'Edit Repair/Maintenance';
+  setStatus('repStatus',''); renderCodes(); renderRepairs(); window.scrollTo({top:0,behavior:'smooth'});
+}
+async function delRep(id){
+  const r = S.repList.find(x => x.id === id); if(!r) return;
+  if(!confirm('Delete ' + r.code + ' ' + r.description + ' dated ' + fmtD(r.receipt_date) + '?')) return;
+  try { await rpc('mat_repair_delete', {p_token:S.token, p_id:id}); if(S.editRep === id) resetRepForm(); toast('Repair record deleted.'); loadRepairs(); }
+  catch(err){ setStatus('repStatus', err.message); }
+}
+$('repForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const d = $('rDate').value, odo = $('rOdo').value;
+  if(!S.selCode) return setStatus('repStatus','Select a repair/maintenance item from the list.');
+  if(!d) return setStatus('repStatus','Receipt date is required.');
+  if(d > todayISO()) return setStatus('repStatus','Receipt date cannot be in the future.');
+  if(odo === '' || Number(odo) < 0 || !Number.isInteger(Number(odo))) return setStatus('repStatus','Enter the odometer reading as a whole number.');
+  for(const id of ['rLabor','rParts','rQty']) if($(id).value !== '' && Number($(id).value) < 0) return setStatus('repStatus','Costs and quantity cannot be negative.');
+  if($('rLabor').value === '' && $('rParts').value === '' && !$('rWarranty').checked && !confirm('No labor or parts cost was entered. Save with $0.00?')) return;
+  try {
+    await rpc('mat_repair_save', {p_token:S.token, p:{
+      id:S.editRep, vehicle_id:S.vehicle.id, code:S.selCode, receipt_date:d, odometer:odo,
+      labor_cost:$('rLabor').value, parts_cost:$('rParts').value, parts_qty:$('rQty').value,
+      under_warranty:$('rWarranty').checked, additional_info:$('rInfo').value }});
+    const was = S.editRep; resetRepForm(); setStatus('repStatus', was ? 'Repair record updated.' : 'Repair record added.', true); loadRepairs();
+  } catch(err){ setStatus('repStatus', err.message); }
+});
+
+/* ---------- Report ---------- */
+function initReportParams(){
+  const t = parseD(todayISO());
+  let m = t.getMonth() - 1, y = t.getFullYear();
+  if(m < 0){ m = 11; y--; }
+  $('rpMonth').innerHTML = MONTHS.map((n,i)=>'<option value="'+(i+1)+'">'+n+'</option>').join('');
+  let yrs = ''; for(let yy = t.getFullYear(); yy >= t.getFullYear() - 10; yy--) yrs += '<option value="'+yy+'">'+yy+'</option>';
+  $('rpYear').innerHTML = yrs;
+  $('rpMonth').value = m + 1; $('rpYear').value = y;
+}
+$('rpMonth').addEventListener('change', loadReport);
+$('rpYear').addEventListener('change', loadReport);
+
+async function loadReport(){
+  if(!S.vehicle) return;
+  setStatus('rpStatus','');
+  const y = Number($('rpYear').value), m = Number($('rpMonth').value);
+  try {
+    S.report = await rpc('mat_report_get', {p_token:S.token, p_vehicle_id:S.vehicle.id, p_year:y, p_month:m});
+    renderReport();
+  } catch(err){ setStatus('rpStatus', err.message); }
+}
+function totalsHTML(d, begin, end){
+  const miles = (begin !== '' && end !== '' && begin != null && end != null) ? Number(end) - Number(begin) : null;
+  return '<div class="totals">' +
+    '<div class="tot"><div class="l">Total Gallons</div><div class="v">'+num2(d.total_gallons)+'</div></div>' +
+    '<div class="tot"><div class="l">Gas Cost</div><div class="v">'+money(d.total_gas_cost)+'</div></div>' +
+    '<div class="tot"><div class="l">Parts Cost</div><div class="v">'+money(d.total_parts)+'</div></div>' +
+    '<div class="tot"><div class="l">Labor Cost</div><div class="v">'+money(d.total_labor)+'</div></div>' +
+    '<div class="tot"><div class="l">Miles</div><div class="v">'+(miles === null ? '&ndash;' : intc(miles))+'</div></div>' +
+    '<div class="tot hl"><div class="l">Total Monthly Cost</div><div class="v">'+money(d.total_cost)+'</div></div></div>';
+}
+function renderReport(){
+  const r = S.report, y = Number($('rpYear').value), m = Number($('rpMonth').value);
+  const label = MONTHS[m-1] + ' ' + y;
+  const finished = !!r.report;
+  const future = new Date(y, m-1, 1) > parseD(todayISO());
+  $('rpBegin').disabled = $('rpEnd').disabled = finished;
+  show('rpFinish', !finished); show('rpPreview', !finished); show('rpReprint', finished);
+  if(finished){
+    $('rpBegin').value = r.report.beginning_mileage; $('rpEnd').value = r.report.ending_mileage;
+    $('rpSummary').innerHTML = '<div class="banner ok">The ' + esc(label) + ' report was finished/printed on ' + esc(fmtTS(r.report.finished_at)) + ' by ' + esc(r.report.finished_by) + '. This month is locked.</div>' + totalsHTML(r.report.snapshot, r.report.beginning_mileage, r.report.ending_mileage);
+  } else {
+    const L = r.live;
+    $('rpBegin').value = L.suggested_begin == null ? '' : L.suggested_begin;
+    $('rpEnd').value = L.suggested_end == null ? '' : L.suggested_end;
+    const empty = !L.gas.length && !L.repairs.length;
+    $('rpSummary').innerHTML = (future ? '<div class="banner info">' + esc(label) + ' has not started yet.</div>' :
+      empty ? '<div class="banner info">No gas or repair receipts have been entered for ' + esc(label) + '.</div>' :
+      '<div class="banner info">' + esc(label) + ' is open. Finishing the report locks the month so its receipts can no longer be changed.</div>') +
+      totalsHTML(L, $('rpBegin').value, $('rpEnd').value);
+    $('rpFinish').disabled = future;
+  }
+  const h = r.history || [];
+  $('histRows').innerHTML = h.length ? h.map(x =>
+    '<tr'+(x.year===y && x.month===m ? ' class="sel"':'')+'><td><button class="linkbtn" data-hy="'+x.year+'" data-hm="'+x.month+'">Select</button></td>' +
+    '<td>'+String(x.month).padStart(2,'0')+'/'+x.year+'</td><td class="num">'+num2(x.total_gallons)+'</td><td class="num">'+money(x.total_gas_cost)+'</td>' +
+    '<td class="num">'+money(x.total_parts)+'</td><td class="num">'+money(x.total_labor)+'</td><td class="num">'+money(x.total_cost)+'</td>' +
+    '<td class="num">'+intc(x.total_miles)+'</td><td>'+esc(x.driver_name||'')+'</td><td>'+esc(fmtTS(x.finished_at))+'</td></tr>'
+  ).join('') : '<tr><td colspan="10" class="empty">No finished reports yet.</td></tr>';
+  qa('[data-hy]', $('histRows')).forEach(b => b.addEventListener('click', ()=>{ $('rpYear').value = b.dataset.hy; $('rpMonth').value = b.dataset.hm; loadReport(); }));
+}
+['rpBegin','rpEnd'].forEach(id => $(id).addEventListener('input', ()=>{
+  if(S.report && S.report.live){
+    const box = $('rpSummary').querySelector('.totals');
+    if(box) box.outerHTML = totalsHTML(S.report.live, $('rpBegin').value, $('rpEnd').value);
+  }
+}));
+$('rpFinish').addEventListener('click', async ()=>{
+  const y = Number($('rpYear').value), m = Number($('rpMonth').value), b = $('rpBegin').value, e = $('rpEnd').value;
+  if(b === '' || e === '') return setStatus('rpStatus','Beginning and ending mileage are required.');
+  if(Number(e) < Number(b)) return setStatus('rpStatus','Ending mileage cannot be less than beginning mileage.');
+  if(!confirm('Finish the ' + MONTHS[m-1] + ' ' + y + ' report for ' + S.vehicle.license_plate + '?\n\nThis locks the month. Gas and repair receipts dated in ' + MONTHS[m-1] + ' can no longer be added, changed or deleted.')) return;
+  try {
+    await rpc('mat_report_finish', {p_token:S.token, p_vehicle_id:S.vehicle.id, p_year:y, p_month:m, p_begin:Number(b), p_end:Number(e)});
+    await loadReport();
+    printReport(false);
+  } catch(err){ setStatus('rpStatus', err.message); }
+});
+$('rpReprint').addEventListener('click', ()=>printReport(false));
+$('rpPreview').addEventListener('click', ()=>printReport(true));
+
+function printReport(draft){
+  const r = S.report; if(!r) return;
+  let d, begin, end;
+  if(r.report){ d = r.report.snapshot; begin = r.report.beginning_mileage; end = r.report.ending_mileage; }
+  else { d = r.live; begin = $('rpBegin').value === '' ? null : Number($('rpBegin').value); end = $('rpEnd').value === '' ? null : Number($('rpEnd').value); }
+  $('printArea').innerHTML = buildReport(d, begin, end, draft);
+  const img = $('printArea').querySelector('img');
+  const go = () => setTimeout(()=>window.print(), 60);
+  if(img && !img.complete){ img.onload = go; img.onerror = go; } else go();
+}
+function buildReport(d, begin, end, draft){
+  const v = d.vehicle || {}, drv = v.driver || {};
+  const org = d.org_name != null ? d.org_name : (S.settings.org_name || '');
+  const logo = S.settings.logo_data;
+  const miles = (begin != null && end != null) ? end - begin : null;
+  const byDay = {};
+  (d.gas || []).forEach(g => {
+    const day = parseD(g.receipt_date).getDate();
+    const o = byDay[day] || (byDay[day] = {gal:0, cost:0, odo:0});
+    o.gal += Number(g.gallons); o.cost += Number(g.cost); o.odo = Math.max(o.odo, Number(g.odometer));
+  });
+  const dim = new Date(d.year, d.month, 0).getDate();
+  const cell = (day) => {
+    if(day === null) return '<tr><td class="d"></td><td></td><td></td><td></td></tr>';
+    const o = day <= dim ? byDay[day] : null;
+    return '<tr><td class="d">'+(day <= dim ? day : '')+'</td><td class="n">'+(o?num2(o.gal):'')+'</td><td class="n">'+(o?money(o.cost):'')+'</td><td class="n">'+(o?intc(o.odo):'')+'</td></tr>';
+  };
+  const head = '<tr><th class="d">DAY OF<br>MONTH</th><th>GAS<br>GAL.</th><th>GAS<br>COST</th><th>MILEAGE</th></tr>';
+  let left = '', right = '';
+  for(let i=1;i<=15;i++) left += cell(i);
+  left += cell(null);
+  for(let i=16;i<=31;i++) right += cell(i);
+  const reps = (d.repairs || []);
+  const repRows = reps.length ? reps.map(x =>
+    '<tr><td class="c">'+fmtD(x.receipt_date)+'</td><td class="c">'+esc(x.code)+'</td><td>'+esc(x.description)+'</td><td class="n">'+money(x.labor_cost)+'</td><td class="n">'+money(x.parts_cost)+'</td><td class="c">'+(Number(x.parts_qty)?qty(x.parts_qty):'')+'</td><td class="c">'+(x.under_warranty?'Y':'N')+'</td><td class="n">'+intc(x.odometer)+'</td></tr>'
+  ).join('') : '<tr><td colspan="8" class="c" style="height:18px"></td></tr>';
+  const ol = [drv.ol_state, drv.ol_number].filter(Boolean).join(' ');
+  const info = (k, val) => '<div class="r"><div class="k">'+k+'</div><div class="v">'+esc(val)+'</div></div>';
+  return '<div class="rpt">' +
+    '<div class="rpt-head"><div>'+(logo?'<img src="'+esc(logo)+'" alt="">':'')+'</div>' +
+      '<div class="rpt-title">'+(org?'<div class="t1">'+esc(org)+'</div>':'')+'<div class="t2">MONTHLY AUTOMOTIVE</div></div>' +
+      '<div class="rpt-draft">'+(draft?'DRAFT':'')+'</div></div>' +
+    '<div class="rpt-info"><div>' +
+      info('LICENSE PLATE', v.license_plate) + info('VIN NUMBER', v.vin || '') +
+      info('DATE (MONTH/YEAR)', (MONTHS[d.month-1] + ' ' + d.year).toUpperCase()) +
+      info('YEAR &amp; MAKE', [v.year, v.make].filter(Boolean).join(' ')) + info('MODEL', v.model || '') +
+    '</div><div>' +
+      info('ASSIGNED TO', v.driver_full || '') + info('OL NUMBER', ol) +
+      info('ENDING MILEAGE', end == null ? '' : intc(end)) + info('BEGINNING MILEAGE', begin == null ? '' : intc(begin)) +
+      info('MILES FOR MONTH', miles == null ? '' : intc(miles)) +
+    '</div></div>' +
+    '<div class="rpt-grid"><table><thead>'+head+'</thead><tbody>'+left+'</tbody></table><table><thead>'+head+'</thead><tbody>'+right+'</tbody></table></div>' +
+    '<h4>VEHICLE REPAIR SUMMARY</h4>' +
+    '<table class="rpt-rep"><thead><tr><th>DAY OF<br>MONTH</th><th>REPAIR<br>CODE</th><th>REPAIR<br>DESCRIPTION</th><th>LABOR<br>COST</th><th>PARTS<br>COST</th><th>QTY</th><th>WRNTY</th><th>MILEAGE</th></tr></thead><tbody>'+repRows+'</tbody></table>' +
+    '<table class="rpt-tot"><thead><tr><th>TOTAL GALS.</th><th>TOTAL GAS<br>COST</th><th>TOTAL PARTS<br>COST</th><th>TOTAL LABOR<br>COST</th><th>TOTAL<br>MONTHLY COST</th></tr></thead>' +
+      '<tbody><tr><td>'+num2(d.total_gallons)+'</td><td>'+money(d.total_gas_cost)+'</td><td>'+money(d.total_parts)+'</td><td>'+money(d.total_labor)+'</td><td>'+money(d.total_cost)+'</td></tr></tbody></table>' +
+    '<div class="rpt-sig"><div>DRIVER\'S SIGNATURE</div><div class="line"></div><div style="text-align:right">REVIEWED BY</div><div class="line"></div><div class="form">MAT-18</div></div>' +
+    '<div class="rpt-foot"><div>'+fmtD(todayISO())+'</div><div>Page 1 of 1</div></div>' +
+  '</div>';
+}
+
+/* ---------- Admin ---------- */
+qa('.pill').forEach(p => p.addEventListener('click', ()=>setATab(p.dataset.atab)));
+function setATab(t){
+  S.atab = t;
+  qa('.pill').forEach(p => p.classList.toggle('active', p.dataset.atab === t));
+  qa('.apane').forEach(p => show(p, p.dataset.apane === t));
+}
+async function loadAdmin(){
+  try {
+    S.admin = await rpc('mat_admin_data', T());
+    S.settings = S.admin.settings || {}; applyBranding();
+    renderAdmVehicles(); renderAdmDrivers(); renderAdmCodes(); renderAdmReports(); renderSettings();
+    setATab(S.atab);
+  } catch(err){ toast(err.message); }
+}
+async function refreshBoot(){
+  const b = await rpc('mat_bootstrap', T());
+  S.vehicles = b.vehicles; S.codes = b.codes; S.categories = b.categories; S.settings = b.settings || {};
+  fillPlateList(); applyBranding();
+  if(S.vehicle){
+    try { S.vehicle = await rpc('mat_get_vehicle', {p_token:S.token, p_plate:S.vehicle.license_plate}); renderVehicle(); renderDriver(); renderStrip(); }
+    catch(e){ S.vehicle = null; renderStrip(); }
+  }
+}
+
+/* Vehicles */
+function driverOptions(sel){
+  const ds = (S.admin.drivers || []).filter(d => d.active || d.id === sel);
+  return '<option value="">UNASSIGNED</option>' + ds.map(d => '<option value="'+d.id+'"'+(d.id===sel?' selected':'')+'>'+esc(d.last_name+', '+d.first_name+(d.active?'':' (INACTIVE)'))+'</option>').join('');
+}
+function renderAdmVehicles(){
+  const vs = S.admin.vehicles;
+  $('admVehRows').innerHTML = vs.length ? vs.map(v =>
+    '<tr><td><strong>'+esc(v.license_plate)+'</strong></td><td>'+esc([v.year,v.make,v.model].filter(Boolean).join(' '))+'</td><td>'+esc(v.vin||'')+'</td>' +
+    '<td class="wrap">'+statusBadge(v.road_status)+(v.road_status==='OUT OF COMMISSION'?'<span class="note-line">'+esc(v.road_status_reason)+'</span>':'')+'</td>' +
+    '<td>'+esc(v.driver_full||'UNASSIGNED')+'</td><td>'+fmtD(v.date_issued)+'</td>' +
+    '<td><div class="btns"><button class="btn btn-ghost btn-sm" data-ve="'+v.id+'">Edit</button><button class="btn btn-danger btn-sm" data-vd="'+v.id+'">Delete</button></div></td></tr>'
+  ).join('') : '<tr><td colspan="7" class="empty">No vehicles yet. Add your first vehicle.</td></tr>';
+  qa('[data-ve]', $('admVehRows')).forEach(b => b.addEventListener('click', ()=>openVehForm(b.dataset.ve)));
+  qa('[data-vd]', $('admVehRows')).forEach(b => b.addEventListener('click', ()=>delVehicle(b.dataset.vd)));
+}
+function toggleReason(){ const oc = $('vStatus').value === 'OUT OF COMMISSION'; show('vReasonWrap', oc); }
+$('vStatus').addEventListener('change', toggleReason);
+$('vDriver').addEventListener('change', ()=>{ if($('vDriver').value && !$('vIssued').value) $('vIssued').value = todayISO(); if(!$('vDriver').value) $('vIssued').value = ''; });
+function openVehForm(id){
+  const v = id ? S.admin.vehicles.find(x => x.id === id) : null;
+  S.editVeh = v ? v.id : null;
+  $('vehForm').reset(); setStatus('vehStatus','');
+  $('vehFormTitle').textContent = v ? 'Edit Vehicle ' + v.license_plate : 'Add Vehicle';
+  $('vDriver').innerHTML = driverOptions(v ? v.assigned_driver_id : null);
+  if(v){
+    $('vPlate').value = v.license_plate; $('vVin').value = v.vin || ''; $('vYear').value = v.year || '';
+    $('vMake').value = v.make || ''; $('vModel').value = v.model || ''; $('vFuel').value = v.fuel_type || '';
+    $('vColor').value = v.color || ''; $('vGvwr').value = v.gvwr || ''; $('vStatus').value = v.road_status;
+    $('vReason').value = v.road_status_reason || ''; $('vIssued').value = v.date_issued || '';
+  }
+  toggleReason(); show('vehFormCard', true); $('vPlate').focus();
+  $('vehFormCard').scrollIntoView({behavior:'smooth', block:'start'});
+}
+$('vAdd').addEventListener('click', ()=>openVehForm(null));
+$('vCancel').addEventListener('click', ()=>show('vehFormCard', false));
+$('vehForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  if(!$('vPlate').value.trim()) return setStatus('vehStatus','License plate is required.');
+  if($('vStatus').value === 'OUT OF COMMISSION' && !$('vReason').value.trim()) return setStatus('vehStatus','A reason is required when the vehicle is Out of Commission.');
+  if($('vDriver').value && !$('vIssued').value) return setStatus('vehStatus','Date Vehicle Issued is required when a driver is assigned.');
+  const vin = $('vVin').value.replace(/\s/g,'').toUpperCase();
+  if(vin && vin.length !== 17 && !confirm('The VIN has ' + vin.length + ' characters. Vehicles built after 1980 have 17. Save anyway?')) return;
+  try {
+    await rpc('mat_admin_vehicle_save', {p_token:S.token, p:{
+      id:S.editVeh, license_plate:$('vPlate').value, vin:vin, year:$('vYear').value, make:$('vMake').value,
+      model:$('vModel').value, fuel_type:$('vFuel').value, color:$('vColor').value, gvwr:$('vGvwr').value,
+      road_status:$('vStatus').value, road_status_reason:$('vReason').value,
+      assigned_driver_id:$('vDriver').value, date_issued:$('vIssued').value }});
+    show('vehFormCard', false); toast('Vehicle saved.');
+    await loadAdmin(); await refreshBoot();
+  } catch(err){ setStatus('vehStatus', err.message); }
+});
+async function delVehicle(id){
+  const v = S.admin.vehicles.find(x => x.id === id); if(!v) return;
+  if(!confirm('Delete vehicle ' + v.license_plate + '?\n\nAll of its gas receipts, repair records and finished reports will be permanently deleted. To keep its history, set the Road Status to N/A instead.')) return;
+  const typed = prompt('Type the license plate (' + v.license_plate + ') to confirm deletion.');
+  if(!typed || typed.trim().toUpperCase() !== v.license_plate) { toast('Deletion cancelled.'); return; }
+  try { await rpc('mat_admin_vehicle_delete', {p_token:S.token, p_id:id}); toast('Vehicle deleted.'); await loadAdmin(); await refreshBoot(); }
+  catch(err){ toast(err.message); }
+}
+
+/* Drivers */
+$('dState').innerHTML = '<option value=""></option>' + STATES.map(s => '<option>'+s+'</option>').join('');
+function renderAdmDrivers(){
+  const ds = S.admin.drivers;
+  $('admDrvRows').innerHTML = ds.length ? ds.map(d =>
+    '<tr><td><strong>'+esc(d.last_name+', '+d.first_name+(d.middle_initial?' '+d.middle_initial:''))+'</strong></td><td>'+esc(d.ol_state||'')+'</td><td>'+esc(d.ol_number||'')+'</td>' +
+    '<td>'+esc(d.username||'')+'</td><td>'+esc((d.vehicles||[]).join(', '))+'</td><td>'+(d.active?'<span class="badge b-op">ACTIVE</span>':'<span class="badge b-inactive">INACTIVE</span>')+'</td>' +
+    '<td><div class="btns"><button class="btn btn-ghost btn-sm" data-de="'+d.id+'">Edit</button><button class="btn btn-danger btn-sm" data-dd="'+d.id+'">Delete</button></div></td></tr>'
+  ).join('') : '<tr><td colspan="7" class="empty">No drivers yet. Add a driver, then assign a vehicle on the Vehicles tab.</td></tr>';
+  qa('[data-de]', $('admDrvRows')).forEach(b => b.addEventListener('click', ()=>openDrvForm(b.dataset.de)));
+  qa('[data-dd]', $('admDrvRows')).forEach(b => b.addEventListener('click', ()=>delDriver(b.dataset.dd)));
+}
+function openDrvForm(id){
+  const d = id ? S.admin.drivers.find(x => x.id === id) : null;
+  S.editDrv = d ? d.id : null;
+  $('drvForm').reset(); setStatus('drvStatus','');
+  $('drvFormTitle').textContent = d ? 'Edit Driver' : 'Add Driver';
+  show('dPassReq', !d);
+  $('dPassHint').textContent = d ? 'Leave blank to keep the current password.' : 'At least 4 characters.';
+  if(d){
+    $('dLast').value = d.last_name; $('dFirst').value = d.first_name; $('dMi').value = d.middle_initial || '';
+    $('dState').value = d.ol_state || ''; $('dOl').value = d.ol_number || ''; $('dUser').value = d.username || '';
+    $('dActive').checked = !!d.active;
+  } else { $('dActive').checked = true; $('dState').value = 'KY'; }
+  show('drvFormCard', true); $('dLast').focus();
+  $('drvFormCard').scrollIntoView({behavior:'smooth', block:'start'});
+}
+$('dAdd').addEventListener('click', ()=>openDrvForm(null));
+$('dCancel').addEventListener('click', ()=>show('drvFormCard', false));
+$('drvForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  if(!$('dLast').value.trim() || !$('dFirst').value.trim()) return setStatus('drvStatus','First and last name are required.');
+  if(!$('dUser').value.trim()) return setStatus('drvStatus','Username is required.');
+  if(!S.editDrv && $('dPass').value.length < 4) return setStatus('drvStatus','Password must be at least 4 characters.');
+  try {
+    await rpc('mat_admin_driver_save', {p_token:S.token, p:{
+      id:S.editDrv, last_name:$('dLast').value, first_name:$('dFirst').value, middle_initial:$('dMi').value,
+      ol_state:$('dState').value, ol_number:$('dOl').value, username:$('dUser').value, password:$('dPass').value,
+      active:$('dActive').checked }});
+    show('drvFormCard', false); toast('Driver saved.');
+    await loadAdmin(); await refreshBoot();
+  } catch(err){ setStatus('drvStatus', err.message); }
+});
+async function delDriver(id){
+  const d = S.admin.drivers.find(x => x.id === id); if(!d) return;
+  if(!confirm('Delete driver ' + d.first_name + ' ' + d.last_name + '?\n\nTheir login is removed and their vehicles become unassigned. Existing receipts keep the driver name. To keep the record, uncheck Active instead.')) return;
+  try { await rpc('mat_admin_driver_delete', {p_token:S.token, p_id:id}); toast('Driver deleted.'); await loadAdmin(); await refreshBoot(); }
+  catch(err){ toast(err.message); }
+}
+
+/* Codes */
+$('cFilter').addEventListener('change', renderAdmCodes);
+function renderAdmCodes(){
+  const f = $('cFilter').value;
+  const list = S.codes.filter(c => f === '' || c.category_id === Number(f));
+  $('admCodeRows').innerHTML = list.map(c =>
+    '<tr><td>'+esc(c.code)+'</td><td>'+esc(c.description)+'</td><td>'+esc(catName(c.category_id))+'</td>' +
+    '<td><div class="btns"><button class="btn btn-ghost btn-sm" data-ce="'+c.code+'">Edit</button><button class="btn btn-danger btn-sm" data-cd="'+c.code+'">Delete</button></div></td></tr>'
+  ).join('') || '<tr><td colspan="4" class="empty">No codes.</td></tr>';
+  qa('[data-ce]', $('admCodeRows')).forEach(b => b.addEventListener('click', ()=>openCodeForm(b.dataset.ce)));
+  qa('[data-cd]', $('admCodeRows')).forEach(b => b.addEventListener('click', ()=>delCode(b.dataset.cd)));
+}
+function openCodeForm(code){
+  const c = code ? S.codes.find(x => x.code === code) : null;
+  S.editCode = c ? c.code : null;
+  $('codeForm').reset(); setStatus('codeStatus','');
+  $('codeFormTitle').textContent = c ? 'Edit Repair Code ' + c.code : 'Add Repair Code';
+  if(c){ $('cCode').value = c.code; $('cDesc').value = c.description; $('cCat').value = c.category_id; }
+  else if($('cFilter').value !== '') $('cCat').value = $('cFilter').value;
+  show('codeFormCard', true); $('cCode').focus();
+  $('codeFormCard').scrollIntoView({behavior:'smooth', block:'start'});
+}
+$('cAdd').addEventListener('click', ()=>openCodeForm(null));
+$('cCancel').addEventListener('click', ()=>show('codeFormCard', false));
+$('codeForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  if(!/^\d{3}$/.test($('cCode').value.trim())) return setStatus('codeStatus','Code must be exactly three digits.');
+  if(!$('cDesc').value.trim()) return setStatus('codeStatus','Description is required.');
+  if($('cCat').value === '') return setStatus('codeStatus','Select a category.');
+  try {
+    await rpc('mat_admin_code_save', {p_token:S.token, p:{code:$('cCode').value.trim(), original_code:S.editCode, description:$('cDesc').value, category_id:$('cCat').value}});
+    show('codeFormCard', false); toast('Repair code saved.');
+    await refreshBoot(); renderAdmCodes();
+  } catch(err){ setStatus('codeStatus', err.message); }
+});
+async function delCode(code){
+  if(!confirm('Delete repair code ' + code + '?')) return;
+  try { await rpc('mat_admin_code_delete', {p_token:S.token, p_code:code}); toast('Repair code deleted.'); await refreshBoot(); renderAdmCodes(); }
+  catch(err){ toast(err.message); }
+}
+
+/* Reports */
+function renderAdmReports(){
+  const rs = S.admin.reports;
+  $('admRepRows').innerHTML = rs.length ? rs.map(r =>
+    '<tr><td><strong>'+esc(r.license_plate)+'</strong></td><td>'+MONTHS[r.month-1]+' '+r.year+'</td><td class="num">'+money(r.total_cost)+'</td>' +
+    '<td>'+esc(fmtTS(r.finished_at))+'</td><td>'+esc(r.finished_by||'')+'</td>' +
+    '<td><button class="btn btn-danger btn-sm" data-ru="'+r.id+'">Unlock</button></td></tr>'
+  ).join('') : '<tr><td colspan="6" class="empty">No reports have been finished.</td></tr>';
+  qa('[data-ru]', $('admRepRows')).forEach(b => b.addEventListener('click', ()=>unlockReport(b.dataset.ru)));
+}
+async function unlockReport(id){
+  const r = S.admin.reports.find(x => x.id === id); if(!r) return;
+  if(!confirm('Unlock ' + MONTHS[r.month-1] + ' ' + r.year + ' for ' + r.license_plate + '?\n\nThe finished report is removed and the month reopens for changes.')) return;
+  try { await rpc('mat_admin_report_unlock', {p_token:S.token, p_id:id}); toast('Month unlocked.'); await loadAdmin(); }
+  catch(err){ toast(err.message); }
+}
+
+/* Settings */
+function renderSettings(){
+  S.logoData = null; S.clearLogo = false;
+  $('sOrg').value = S.settings.org_name || ''; $('sLogo').value = '';
+  const has = !!S.settings.logo_data;
+  if(has) $('sLogoPrev').src = S.settings.logo_data;
+  show('sLogoPrev', has); show('sLogoRemove', has); setStatus('setStatus','');
+}
+$('sLogo').addEventListener('change', ()=>{
+  const f = $('sLogo').files[0]; if(!f) return;
+  if(f.size > 500 * 1024){ setStatus('setStatus','Logo must be under 500 KB.'); $('sLogo').value=''; return; }
+  const rd = new FileReader();
+  rd.onload = () => { S.logoData = rd.result; S.clearLogo = false; $('sLogoPrev').src = rd.result; show('sLogoPrev', true); show('sLogoRemove', true); setStatus('setStatus',''); };
+  rd.readAsDataURL(f);
+});
+$('sLogoRemove').addEventListener('click', ()=>{ S.logoData = null; S.clearLogo = true; $('sLogo').value=''; show('sLogoPrev', false); show('sLogoRemove', false); });
+$('setForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  try {
+    await rpc('mat_admin_settings_save', {p_token:S.token, p_org_name:$('sOrg').value, p_logo_data:S.logoData, p_clear_logo:S.clearLogo});
+    toast('Settings saved.'); await loadAdmin();
+  } catch(err){ setStatus('setStatus', err.message); }
+});
+
+/* ---------- Start ---------- */
+(async function start(){
+  try { S.settings = await rpc('mat_public_settings', {}) || {}; applyBranding(); } catch(e){}
+  const t = store.get('mat_token');
+  if(t){
+    S.token = t;
+    try { await boot(); return; } catch(e){ if(S.token){ S.token = null; store.del('mat_token'); } }
+  }
+  showLogin('');
+})();
+
+})();
+</script>
+</body>
+</html>
